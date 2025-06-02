@@ -130,10 +130,7 @@ table.custom-table td {
 
 #root {
   max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
   text-align: center;
-  min-height: 100vh;
 }
 
 .logo {
@@ -291,9 +288,7 @@ table.custom-table td {
 }
 
 .app-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5em;
+  display: block;
 }
 
 @media (min-width: 700px) {
@@ -303,8 +298,6 @@ table.custom-table td {
   }
 
   .app-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5em;
+    display: block;
   }
 }
