@@ -286,7 +286,19 @@ export default function MaintenanceRecords() {
             <EnhancedTableToolbar numSelected={selected.length} />
             <TableContainer>
               <Table
-                sx={{ minWidth: 650 }}
+                sx={{
+                  minWidth: 650,
+                  '& th, & td': {
+                    fontSize: 'clamp(0.85rem, 2.5vw, 1.1rem)',
+                    padding: 'clamp(0.3rem, 1.5vw, 1rem) clamp(0.5rem, 2vw, 1.5rem)',
+                    wordBreak: 'break-word',
+                    whiteSpace: 'normal',
+                  },
+                  '& th': {
+                    fontWeight: 700,
+                  },
+                  tableLayout: 'fixed',
+                }}
                 size={dense ? 'small' : 'medium'}
               >
                 <EnhancedTableHead

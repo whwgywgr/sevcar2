@@ -283,12 +283,25 @@ export default function FuelRecords() {
     );
 
     return (
-        <Box width="100%">
+        <Box sx={{ width: { xs: '100%', sm: 600, md: 720 } }}>
           <Paper sx={{ width: '100%', mb: 2 }}>
             <EnhancedTableToolbar numSelected={selected.length} />
             <TableContainer>
               <Table
-                sx={{ minWidth: 650 }}
+                sx={{
+                  width: '100%', // Make table always fit container
+                  minWidth: 0, // Remove minWidth to allow shrinking
+                  '& th, & td': {
+                    fontSize: 'clamp(0.85rem, 2.5vw, 1.1rem)',
+                    padding: 'clamp(0.3rem, 1.5vw, 1rem) clamp(0.5rem, 2vw, 1.5rem)',
+                    wordBreak: 'break-word',
+                    whiteSpace: 'normal',
+                  },
+                  '& th': {
+                    fontWeight: 700,
+                  },
+                  tableLayout: 'fixed',
+                }}
                 size={dense ? 'small' : 'medium'}
               >
                 <EnhancedTableHead
