@@ -1,8 +1,8 @@
 /* ProfilePage.css */
 
+/* Glassmorphism background for profile */
 .profile-bg {
     min-height: 100vh;
-    background: linear-gradient(135deg, #e3f0ff 0%, #ffffff 100%);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -12,9 +12,12 @@
 .profile-card {
     width: 100%;
     max-width: 420px;
-    background: #fff;
+    background: rgba(255,255,255,0.22);
     border-radius: 18px;
-    box-shadow: 0 4px 32px rgba(0, 0, 0, 0.10);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1.5px solid rgba(255,255,255,0.28);
     padding: 36px 32px 32px 32px;
     position: relative;
 }
@@ -30,7 +33,7 @@
     width: 80px;
     height: 80px;
     border-radius: 50%;
-    background: #e0edff;
+    background: rgba(224,237,255,0.6);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -39,6 +42,8 @@
     color: #2563eb;
     margin-bottom: 10px;
     box-shadow: 0 2px 8px rgba(37, 99, 235, 0.08);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
 }
 
 .profile-title {
@@ -75,13 +80,17 @@
 }
 
 .profile-input {
-    border: 1px solid #d1d5db;
+    border: 1.5px solid rgba(255,255,255,0.28);
     padding: 10px 12px;
     border-radius: 8px;
     width: 100%;
     font-size: 1rem;
     outline: none;
     transition: border 0.2s;
+    background: rgba(255,255,255,0.32);
+    color: #222;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
 }
 
 .profile-input:focus {
@@ -94,9 +103,14 @@
     width: 100%;
     font-weight: 600;
     font-size: 1rem;
-    border: none;
+    border: 1.5px solid rgba(255,255,255,0.32);
     cursor: pointer;
-    transition: background 0.2s, opacity 0.2s;
+    transition: background 0.2s, color 0.2s, border 0.2s;
+    background: rgba(255,255,255,0.18);
+    color: #2563eb;
+    box-shadow: 0 2px 8px rgba(31,38,135,0.08);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
 }
 
 .profile-btn:disabled {
@@ -105,41 +119,49 @@
 }
 
 .profile-btn-blue {
-    background: #2563eb;
-    color: #fff;
+    background: rgba(37,99,235,0.18);
+    color: #2563eb;
 }
 
 .profile-btn-blue:hover:not(:disabled) {
-    background: #1d4ed8;
+    background: rgba(37,99,235,0.18);
+    color: #1d4ed8;
 }
 
 .profile-btn-yellow {
-    background: #fbbf24;
-    color: #fff;
+    background: rgba(251,191,36,0.18);
+    color: #2563eb;
 }
 
 .profile-btn-yellow:hover:not(:disabled) {
-    background: #f59e0b;
+    background: rgba(245,158,11,0.18);
+    color: #1d4ed8;
 }
 
 .profile-error {
-    background: #fee2e2;
+    background: rgba(225,29,72,0.18);
     color: #b91c1c;
     padding: 10px 0;
     border-radius: 6px;
     margin-bottom: 8px;
     text-align: center;
     font-weight: 500;
+    border: 1.5px solid rgba(255,255,255,0.32);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
 }
 
 .profile-success {
-    background: #d1fae5;
+    background: rgba(34,197,94,0.18);
     color: #047857;
     padding: 10px 0;
     border-radius: 6px;
     margin-bottom: 8px;
     text-align: center;
     font-weight: 500;
+    border: 1.5px solid rgba(255,255,255,0.32);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
 }
 
 .profile-loading {

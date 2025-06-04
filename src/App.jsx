@@ -6,10 +6,12 @@ import FuelRecords from './FuelRecords';
 import MaintenanceRecords from './MaintenanceRecords';
 import ProfilePage from './ProfilePage';
 import { NotificationProvider, useNotification } from './Notification';
+import BottomNav from './BottomNav';
 
 function AppContent() {
   const [session, setSession] = useState(null);
   const [showProfile, setShowProfile] = useState(false);
+  const [nav, setNav] = useState('home');
   const notify = useNotification();
 
   useEffect(() => {
@@ -33,45 +35,34 @@ function AppContent() {
     }} />;
   }
 
-  if (showProfile) {
+  // Mobile navigation logic
+  if (showProfile || nav === 'profile') {
     return (
       <div className="app-bg">
-        <div className="app-container">
-          <div className="app-header">
-            <h1 className="app-title">Profile</h1>
-            <button className="secondary app-btn" onClick={() => setShowProfile(false)}>
-              Back
-            </button>
-          </div>
+        <div className="app-container responsive-app-container">
           <ProfilePage />
         </div>
+        <BottomNav current={nav} onNavigate={setNav} />
       </div>
     );
   }
 
+  let mainContent;
+  if (nav === 'fuel') mainContent = <FuelRecords />;
+  else if (nav === 'maintenance') mainContent = <MaintenanceRecords />;
+  else mainContent = (
+    <div className="app-grid">
+      <FuelRecords />
+      <MaintenanceRecords />
+    </div>
+  );
+
   return (
     <div className="app-bg">
-      <div className="app-container">
-        <div className="app-header">
-          <h1 className="app-title">Car Maintenance & Fuel Tracker</h1>
-          <div className="app-btn-group">
-            <button className="app-btn" onClick={() => setShowProfile(true)}>
-              Profile
-            </button>
-            <button className="secondary app-btn" onClick={async () => {
-              await supabase.auth.signOut();
-              setSession(null);
-              notify('Logged out', 'success');
-            }}>
-              Logout
-            </button>
-          </div>
-        </div>
-        <div className="app-grid">
-          <FuelRecords />
-          <MaintenanceRecords />
-        </div>
+      <div className="app-container responsive-app-container">
+        {mainContent}
       </div>
+      <BottomNav current={nav} onNavigate={setNav} />
     </div>
   );
 }
