@@ -23,6 +23,12 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import { visuallyHidden } from '@mui/utils';
+import Fab from '@mui/material/Fab';
+import AddIcon from '@mui/icons-material/Add';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
 
 const FILTERS = [
     { label: '1 Month', value: '1m' },
@@ -150,7 +156,8 @@ export default function FuelRecords() {
     const [selected, setSelected] = useState([]);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
-    const [dense, setDense] = useState(false);
+    const [dense, setDense] = useState(true);
+    const [addOpen, setAddOpen] = useState(false);
     const notify = useNotification();
 
     const fetchRecords = async () => {
@@ -283,14 +290,14 @@ export default function FuelRecords() {
     );
 
     return (
-        <Box sx={{ width: { xs: '100%', sm: 600, md: 720 } }}>
+        <Box sx={{ width: { xs: '100%', sm: '100%', md: '100%', lg: '100%' }, maxWidth: 1920, mx: 'auto', position: 'relative' }}>
           <Paper sx={{ width: '100%', mb: 2 }}>
             <EnhancedTableToolbar numSelected={selected.length} />
             <TableContainer>
               <Table
                 sx={{
                   width: '100%', // Make table always fit container
-                  minWidth: 0, // Remove minWidth to allow shrinking
+                  minWidth: { xs: 0, sm: 0, md: 0, lg: 0 }, // Responsive minWidth
                   '& th, & td': {
                     fontSize: 'clamp(0.75rem, 2.5vw, 1.1rem)',
                     padding: 'clamp(0.3rem, 1.5vw, 1rem) clamp(0.5rem, 2vw, 1.5rem)',
@@ -328,7 +335,17 @@ export default function FuelRecords() {
                           {editId === row.id ? (
                             <TextField type="date" value={editDate} onChange={e => setEditDate(e.target.value)} size="small" />
                           ) : (
-                            row.date
+                            (() => {
+                              // Format: YYYY-MM-DD
+                              const [year, month, day] = row.date.split('-');
+                              const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                              return (
+                                <span style={{ display: 'inline-block', textAlign: 'center', width: '100%' }}>
+                                  <span style={{ display: 'block', fontWeight: 600 }}>{day} {monthNames[parseInt(month, 10) - 1]}</span>
+                                  <span style={{ display: 'block', fontSize: '0.9em', color: '#888' }}>{year}</span>
+                                </span>
+                              );
+                            })()
                           )}
                         </TableCell>
                         <TableCell align="right">
@@ -376,29 +393,44 @@ export default function FuelRecords() {
             control={<Switch checked={dense} onChange={handleChangeDense} />}
             label="Dense padding"
           />
-          <Box component="form" onSubmit={handleAdd} sx={{ display: 'flex', gap: 2, mb: 2, flexWrap: 'wrap' }}>
-              <TextField
-                  type="number"
-                  step="0.01"
-                  label="Amount (RM)"
-                  value={amount}
-                  onChange={e => setAmount(e.target.value)}
-                  required
-                  size="small"
-              />
-              <TextField
-                  type="date"
-                  label="Date"
-                  value={date}
-                  onChange={e => setDate(e.target.value)}
-                  required
-                  size="small"
-                  InputLabelProps={{ shrink: true }}
-              />
-              <Button type="submit" variant="contained" color="primary" disabled={loading} sx={{ minWidth: 100 }}>
-                  Add
-              </Button>
-          </Box>
+          {/* Floating Action Button */}
+          <Fab color="primary" aria-label="add" onClick={() => setAddOpen(true)} sx={{ position: 'fixed', bottom: 88, right: 32, zIndex: 1200 }}>
+            <AddIcon />
+          </Fab>
+          {/* Add Record Dialog */}
+          <Dialog open={addOpen} onClose={() => setAddOpen(false)}>
+            <DialogTitle>Add Fuel Record</DialogTitle>
+            <DialogContent>
+              <Box component="form" onSubmit={e => { handleAdd(e); setAddOpen(false); }} sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 1, minWidth: 300 }}>
+                <TextField
+                    type="number"
+                    step="0.01"
+                    label="Amount (RM)"
+                    value={amount}
+                    onChange={e => setAmount(e.target.value)}
+                    required
+                    size="small"
+                    autoFocus
+                />
+                <TextField
+                    type="date"
+                    label="Date"
+                    value={date}
+                    onChange={e => setDate(e.target.value)}
+                    required
+                    size="small"
+                    InputLabelProps={{ shrink: true }}
+                />
+                <DialogActions>
+                  <Button onClick={() => setAddOpen(false)} color="inherit">Cancel</Button>
+                  <Button type="submit" variant="contained" color="primary" disabled={loading} sx={{ minWidth: 100 }}>
+                      Add
+                  </Button>
+                </DialogActions>
+              </Box>
+            </DialogContent>
+          </Dialog>
+          {/* ...existing code... */}
           <Stack direction="row" spacing={1} mb={2}>
               {FILTERS.map(f => (
                   <Button
