@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import AuthPage from './AuthPage';
 import { supabase } from './supabaseClient';
-import './App.css';
 import FuelRecords from './FuelRecords';
 import MaintenanceRecords from './MaintenanceRecords';
 import ProfilePage from './ProfilePage';
 import { NotificationProvider, useNotification } from './Notification';
 import BottomNav from './BottomNav';
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
 
 function AppContent() {
   const [session, setSession] = useState(null);
@@ -38,12 +39,12 @@ function AppContent() {
   // Mobile navigation logic
   if (showProfile || nav === 'profile') {
     return (
-      <div className="app-bg">
-        <div className="app-container responsive-app-container">
+      <Box minHeight="100vh" bgcolor="#f3f4f6">
+        <Container maxWidth="sm" sx={{ py: 4 }}>
           <ProfilePage />
-        </div>
+        </Container>
         <BottomNav current={nav} onNavigate={setNav} />
-      </div>
+      </Box>
     );
   }
 
@@ -51,19 +52,19 @@ function AppContent() {
   if (nav === 'fuel') mainContent = <FuelRecords />;
   else if (nav === 'maintenance') mainContent = <MaintenanceRecords />;
   else mainContent = (
-    <div className="app-grid">
+    <Box display="flex" flexDirection={{ xs: 'column', md: 'row' }} gap={2}>
       <FuelRecords />
       <MaintenanceRecords />
-    </div>
+    </Box>
   );
 
   return (
-    <div className="app-bg">
-      <div className="app-container responsive-app-container">
+    <Box minHeight="100vh" bgcolor="#f3f4f6">
+      <Container maxWidth="sm" sx={{ py: 4 }}>
         {mainContent}
-      </div>
+      </Container>
       <BottomNav current={nav} onNavigate={setNav} />
-    </div>
+    </Box>
   );
 }
 

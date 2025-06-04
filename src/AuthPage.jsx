@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import { supabase } from './supabaseClient';
 import { useNotification } from './Notification';
-import './AuthPage.css';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 
 export default function AuthPage({ onAuth }) {
     const [email, setEmail] = useState('');
@@ -35,45 +39,54 @@ export default function AuthPage({ onAuth }) {
     };
 
     return (
-        <div className="auth-bg">
-            <div className="auth-card">
-                <div className="auth-logo" aria-label="Car Logo">🚗</div>
-                <h2 className="auth-title">
+        <Box minHeight="80vh" display="flex" alignItems="center" justifyContent="center" bgcolor="#e0e7ff">
+            <Paper elevation={6} sx={{ p: 4, maxWidth: 370, width: '100%', borderRadius: 3, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <Box sx={{ width: 54, height: 54, borderRadius: '50%', bgcolor: 'primary.light', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 32, fontWeight: 'bold', color: 'primary.main', mb: 2, boxShadow: 2 }} aria-label="Car Logo">
+                    🚗
+                </Box>
+                <Typography variant="h5" fontWeight={800} color="text.primary" mb={2} align="center">
                     {isLogin ? 'Login' : 'Register'}
-                </h2>
-                <form onSubmit={handleSubmit} className="auth-form">
-                    <input
-                        className="auth-input"
+                </Typography>
+                <Box component="form" onSubmit={handleSubmit} sx={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 2 }}>
+                    <TextField
+                        label="Email"
                         type="email"
-                        placeholder="Email"
                         value={email}
                         onChange={e => setEmail(e.target.value)}
                         required
+                        fullWidth
+                        size="medium"
                     />
-                    <input
-                        className="auth-input"
+                    <TextField
+                        label="Password"
                         type="password"
-                        placeholder="Password"
                         value={password}
                         onChange={e => setPassword(e.target.value)}
                         required
+                        fullWidth
+                        size="medium"
                     />
-                    {error && <div className="auth-error">{error}</div>}
-                    <button
-                        className="auth-btn"
+                    {error && <Typography color="error" sx={{ mt: 1 }}>{error}</Typography>}
+                    <Button
+                        variant="contained"
+                        color="primary"
                         type="submit"
                         disabled={loading}
+                        fullWidth
+                        sx={{ mt: 1, fontWeight: 600 }}
                     >
                         {loading ? 'Loading...' : isLogin ? 'Login' : 'Register'}
-                    </button>
-                </form>
-                <button
-                    className="auth-toggle"
+                    </Button>
+                </Box>
+                <Button
+                    color="primary"
+                    variant="text"
                     onClick={() => setIsLogin(!isLogin)}
+                    sx={{ mt: 2, textDecoration: 'underline', fontSize: '1rem' }}
                 >
                     {isLogin ? 'No account? Register' : 'Have an account? Login'}
-                </button>
-            </div>
-        </div>
+                </Button>
+            </Paper>
+        </Box>
     );
 }

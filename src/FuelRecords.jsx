@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from './supabaseClient';
-import './App.css';
 import { useNotification } from './Notification';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -10,7 +9,6 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Paper from '@mui/material/Paper';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -21,6 +19,9 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import Box from '@mui/material/Box';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
 import { visuallyHidden } from '@mui/utils';
 
 const FILTERS = [
@@ -104,8 +105,7 @@ function EnhancedTableToolbar({ numSelected }) {
         pl: { sm: 2 },
         pr: { xs: 1, sm: 1 },
         ...(numSelected > 0 && {
-          bgcolor: (theme) =>
-            theme.palette.primary.main + '22',
+          bgcolor: (theme) => theme.palette.primary.main + '22',
         }),
       }}
     >
@@ -283,7 +283,7 @@ export default function FuelRecords() {
     );
 
     return (
-        <Box sx={{ width: '100%' }}>
+        <Box width="100%">
           <Paper sx={{ width: '100%', mb: 2 }}>
             <EnhancedTableToolbar numSelected={selected.length} />
             <TableContainer>
@@ -313,49 +313,29 @@ export default function FuelRecords() {
                       >
                         <TableCell component="th" id={labelId} scope="row">
                           {editId === row.id ? (
-                            <input type="date" value={editDate} onChange={e => setEditDate(e.target.value)} style={{ width: '120px', border: '1.5px solid #f59e42', borderRadius: 6, padding: '4px 8px' }} />
+                            <TextField type="date" value={editDate} onChange={e => setEditDate(e.target.value)} size="small" />
                           ) : (
                             row.date
                           )}
                         </TableCell>
                         <TableCell align="right">
                           {editId === row.id ? (
-                            <input type="number" step="0.01" value={editAmount} onChange={e => setEditAmount(e.target.value)} style={{ width: '90px', border: '1.5px solid #f59e42', borderRadius: 6, padding: '4px 8px' }} />
+                            <TextField type="number" step="0.01" value={editAmount} onChange={e => setEditAmount(e.target.value)} size="small" />
                           ) : (
                             `RM ${Number(row.amount).toFixed(2)}`
                           )}
                         </TableCell>
                         <TableCell align="right">
                           {editId === row.id ? (
-                            <>
-                              <button style={{ marginRight: 4, background: '#22c55e', padding: '6px 10px' }} onClick={() => handleEditSave(row.id)} disabled={loading} aria-label="Save">
-                                <svg width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ verticalAlign: 'middle' }}>
-                                  <path d="M5 10.5l4 4 6-7" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
-                                </svg>
-                              </button>
-                              <button className="secondary" style={{ background: '#e5e7eb', color: '#222', padding: '6px 10px' }} onClick={() => setEditId(null)} disabled={loading} aria-label="Cancel">
-                                <svg width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ verticalAlign: 'middle' }}>
-                                  <line x1="6" y1="6" x2="14" y2="14" stroke="#222" strokeWidth="2.2" strokeLinecap="round"/>
-                                  <line x1="14" y1="6" x2="6" y2="14" stroke="#222" strokeWidth="2.2" strokeLinecap="round"/>
-                                </svg>
-                              </button>
-                            </>
+                            <Stack direction="row" spacing={1}>
+                              <Button variant="contained" color="success" size="small" onClick={() => handleEditSave(row.id)} disabled={loading}>Save</Button>
+                              <Button variant="outlined" color="inherit" size="small" onClick={() => setEditId(null)} disabled={loading}>Cancel</Button>
+                            </Stack>
                           ) : (
-                            <>
-                              <button className="table-action-btn edit" onClick={() => handleEdit(row)} disabled={loading} aria-label="Edit">
-                                <svg width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ verticalAlign: 'middle' }}>
-                                  <path d="M4 13.5V16h2.5l7.06-7.06-2.5-2.5L4 13.5z" fill="#2563eb"/>
-                                  <path d="M14.85 6.15a1 1 0 0 0 0-1.41l-1.59-1.59a1 1 0 0 0-1.41 0l-1.13 1.13 2.5 2.5 1.13-1.13z" fill="#2563eb"/>
-                                </svg>
-                              </button>
-                              <button className="table-action-btn delete" onClick={() => handleDelete(row.id)} disabled={loading} aria-label="Delete">
-                                <svg width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ verticalAlign: 'middle' }}>
-                                  <path d="M6 7v7a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V7" stroke="#fff" strokeWidth="1.5" strokeLinecap="round"/>
-                                  <path d="M9 9v4M11 9v4" stroke="#fff" strokeWidth="1.5" strokeLinecap="round"/>
-                                  <rect x="4" y="4" width="12" height="2" rx="1" fill="#e11d48"/>
-                                </svg>
-                              </button>
-                            </>
+                            <Stack direction="row" spacing={1}>
+                              <Button variant="outlined" color="primary" size="small" onClick={() => handleEdit(row)} disabled={loading}>Edit</Button>
+                              <Button variant="outlined" color="error" size="small" onClick={() => handleDelete(row.id)} disabled={loading}>Delete</Button>
+                            </Stack>
                           )}
                         </TableCell>
                       </TableRow>
@@ -383,42 +363,46 @@ export default function FuelRecords() {
             control={<Switch checked={dense} onChange={handleChangeDense} />}
             label="Dense padding"
           />
-          <form onSubmit={handleAdd} className="form-grid">
-              <input
+          <Box component="form" onSubmit={handleAdd} sx={{ display: 'flex', gap: 2, mb: 2, flexWrap: 'wrap' }}>
+              <TextField
                   type="number"
                   step="0.01"
-                  placeholder="Amount (RM)"
+                  label="Amount (RM)"
                   value={amount}
                   onChange={e => setAmount(e.target.value)}
                   required
+                  size="small"
               />
-              <input
+              <TextField
                   type="date"
+                  label="Date"
                   value={date}
                   onChange={e => setDate(e.target.value)}
                   required
+                  size="small"
+                  InputLabelProps={{ shrink: true }}
               />
-              <button style={{ gridColumn: '1 / -1' }} disabled={loading}>
+              <Button type="submit" variant="contained" color="primary" disabled={loading} sx={{ minWidth: 100 }}>
                   Add
-              </button>
-          </form>
-          <div style={{ marginBottom: '0.5em', display: 'flex', gap: '0.5em' }}>
+              </Button>
+          </Box>
+          <Stack direction="row" spacing={1} mb={2}>
               {FILTERS.map(f => (
-                  <button
+                  <Button
                       key={f.value}
-                      className={filter === f.value ? '' : 'secondary'}
-                      style={{ fontWeight: filter === f.value ? 'bold' : 'normal' }}
+                      variant={filter === f.value ? 'contained' : 'outlined'}
+                      color="primary"
                       onClick={() => setFilter(f.value)}
-                      type="button"
+                      size="small"
                   >
                       {f.label}
-                  </button>
+                  </Button>
               ))}
-          </div>
-          <div style={{ marginBottom: '0.5em', textAlign: 'right', fontWeight: 600 }}>
+          </Stack>
+          <Typography align="right" fontWeight={600} mb={2}>
               Total: RM {total.toFixed(2)}
-          </div>
-          {error && <div style={{ color: '#e11d48', marginBottom: '0.5em' }}>{error}</div>}
+          </Typography>
+          {error && <Typography color="error" mb={2}>{error}</Typography>}
         </Box>
     );
 }
