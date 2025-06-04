@@ -292,10 +292,9 @@ export default function FuelRecords() {
                   width: '100%', // Make table always fit container
                   minWidth: 0, // Remove minWidth to allow shrinking
                   '& th, & td': {
-                    fontSize: 'clamp(0.85rem, 2.5vw, 1.1rem)',
+                    fontSize: 'clamp(0.75rem, 2.5vw, 1.1rem)',
                     padding: 'clamp(0.3rem, 1.5vw, 1rem) clamp(0.5rem, 2vw, 1.5rem)',
                     wordBreak: 'keep-all',
-                    overflowWrap: 'break-word',
                     whiteSpace: 'normal',
                   },
                   '& th': {
