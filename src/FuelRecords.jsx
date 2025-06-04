@@ -294,7 +294,8 @@ export default function FuelRecords() {
                   '& th, & td': {
                     fontSize: 'clamp(0.85rem, 2.5vw, 1.1rem)',
                     padding: 'clamp(0.3rem, 1.5vw, 1rem) clamp(0.5rem, 2vw, 1.5rem)',
-                    wordBreak: 'break-word',
+                    wordBreak: 'keep-all',
+                    overflowWrap: 'break-word',
                     whiteSpace: 'normal',
                   },
                   '& th': {
